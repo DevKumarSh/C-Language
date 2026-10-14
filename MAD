@@ -1,211 +1,98 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="20dp">
+#include <stdio.h>
 
-    <EditText
-        android:id="@+id/etPassengers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Number of Passengers"
-        android:inputType="number" />
+int count = 0;
 
-    <EditText
-        android:id="@+id/etPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Ticket Price"
-        android:inputType="numberDecimal" />
-
-    <Button
-        android:id="@+id/btnCalculate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Calculate Fare" />
-
-    <TextView
-        android:id="@+id/txtResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
-        android:gravity="center" />
-
-</LinearLayout>
-
-
-
-package com.example.myapp;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-
-    EditText etPassengers, etPrice;
-    Button btnCalculate;
-    TextView txtResult;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        etPassengers = findViewById(R.id.etPassengers);
-        etPrice = findViewById(R.id.etPrice);
-        btnCalculate = findViewById(R.id.btnCalculate);
-        txtResult = findViewById(R.id.txtResult);
-
-        btnCalculate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String passengersText =
-                        etPassengers.getText().toString().trim();
-
-                String priceText =
-                        etPrice.getText().toString().trim();
-
-                if (passengersText.isEmpty() || priceText.isEmpty()) {
-                    txtResult.setText("Please enter all details.");
-                    return;
-                }
-
-                try {
-                    int passengers = Integer.parseInt(passengersText);
-                    double price = Double.parseDouble(priceText);
-
-                    if (passengers <= 0 || price < 0) {
-                        txtResult.setText("Enter valid values.");
-                        return;
-                    }
-
-                    double total = passengers * price;
-                    double discount = 0;
-
-                    if (passengers >= 5) {
-                        discount = total * 0.10;
-                    }
-
-                    double finalAmount = total - discount;
-
-                    txtResult.setText(
-                            "Total Amount: Rs. " + String.format("%.2f", total)
-                            + "\nDiscount: Rs. " + String.format("%.2f", discount)
-                            + "\nFinal Amount: Rs. " + String.format("%.2f", finalAmount)
-                    );
-
-                } catch (NumberFormatException e) {
-                    txtResult.setText("Please enter valid numbers.");
-                }
-            }
-        });
+void towerOfHanoi(int n, char source, char auxiliary, char destination)
+{
+    if (n == 1)
+    {
+        printf("Move disk 1 from %c to %c\n", source, destination);
+        count++;
+        return;
     }
+
+    towerOfHanoi(n - 1, source, destination, auxiliary);
+
+    printf("Move disk %d from %c to %c\n", n, source, destination);
+    count++;
+
+    towerOfHanoi(n - 1, auxiliary, source, destination);
+}
+
+int main()
+{
+    int n;
+
+    printf("Enter number of disks: ");
+    scanf("%d", &n);
+
+    if (n <= 0)
+    {
+        printf("Enter a positive number of disks.\n");
+        return 0;
+    }
+
+    towerOfHanoi(n, 'A', 'B', 'C');
+
+    printf("\nTotal number of moves = %d\n", count);
+
+    return 0;
 }
 
 
 
+#include <stdio.h>
 
-2nd
+void merge(int a[], int low, int mid, int high)
+{
+    int i = low, j = mid + 1, k = 0;
+    int temp[100];
 
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="20dp">
-
-    <EditText
-        android:id="@+id/etCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Transaction Code"
-        android:maxLength="1"
-        android:inputType="textCapCharacters" />
-
-    <Button
-        android:id="@+id/btnCheck"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Check Transaction" />
-
-    <TextView
-        android:id="@+id/txtResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Transaction message will appear here"
-        android:textSize="20sp"
-        android:gravity="center" />
-
-</LinearLayout>
-
-
-package com.example.myapp;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-
-    EditText etCode;
-    Button btnCheck;
-    TextView txtResult;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        etCode = findViewById(R.id.etCode);
-        btnCheck = findViewById(R.id.btnCheck);
-        txtResult = findViewById(R.id.txtResult);
-
-        btnCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String code = etCode.getText().toString().trim();
-
-                if (code.isEmpty()) {
-                    txtResult.setText("Please enter a transaction code.");
-                    return;
-                }
-
-                char ch = Character.toUpperCase(code.charAt(0));
-
-                switch (ch) {
-                    case 'D':
-                        txtResult.setText("Deposit Transaction");
-                        break;
-
-                    case 'W':
-                        txtResult.setText("Withdrawal Transaction");
-                        break;
-
-                    case 'T':
-                        txtResult.setText("Transfer Transaction");
-                        break;
-
-                    default:
-                        txtResult.setText("Invalid transaction code.");
-                        break;
-                }
-            }
-        });
+    while (i <= mid && j <= high)
+    {
+        if (a[i] < a[j])
+            temp[k++] = a[i++];
+        else
+            temp[k++] = a[j++];
     }
+
+    while (i <= mid)
+        temp[k++] = a[i++];
+
+    while (j <= high)
+        temp[k++] = a[j++];
+
+    for (i = low, k = 0; i <= high; i++, k++)
+        a[i] = temp[k];
+}
+
+void mergeSort(int a[], int low, int high)
+{
+    if (low < high)
+    {
+        int mid = (low + high) / 2;
+
+        mergeSort(a, low, mid);
+        mergeSort(a, mid + 1, high);
+
+        merge(a, low, mid, high);
+    }
+}
+
+int main()
+{
+    int a[] = {420, 185, 630, 275, 90, 510, 340};
+    int n = 7, i;
+
+    printf("Original counts: ");
+    for (i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    mergeSort(a, 0, n - 1);
+
+    printf("\nSorted counts: ");
+    for (i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
 }
